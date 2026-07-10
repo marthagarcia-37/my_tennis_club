@@ -1,11 +1,42 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>My First Django Page</title>
-</head>
-<body>
-    <h1>Welcome to My First Django Page</h1>
-    <p>This is a simple page created with Django!</p>
-    <p>Hecho por Martha Garcia</p>
-</body>
-</html>
+{% extends "base.html" %}
+{% load static %}
+{% block barra %}
+{{ titulo}} <a href="{% url 'miembros_create' %}"><img src="{%static 'images/icons8-más-96.png' %}" height="40" width="40"></a>
+<form method="post" >
+    {% csrf_token %}
+    <input type="text" name="fname" value="" placeholder="nombre">
+    <input type="text" name="lname" value="" placeholder="apellido">
+    <input type="submit" value="Filtrar">
+</form> 
+{% endblock %}
+
+{% block content %}
+<div class="container mt-3">  
+
+  <table class="table table-hover">
+      
+    <thead>
+      <tr class="table-info">
+        <th>Acciones</th>
+        <th>Firstname </th>
+        <th>Lastname </th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      {% for miembro in miembros %}
+      <tr>
+        <td>
+            <a href="{% url 'miembros_update' miembro.id %}"><img src="{%static 'images/icons8-editar-96.png' %}" height="40" width="40"></a>
+            <a href="{% url 'miembros_delete' miembro.id %}"><img src="{%static 'images/icons8-eliminar-96.png' %}" height="40" width="40"></a>
+        <td>{{ miembro.firstname }}</td>
+        <td>{{ miembro.lastname }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+{% endblock %}
+
